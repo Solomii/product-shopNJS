@@ -16,7 +16,7 @@ router.post("/register", async (req, res) => {
     const savedUser = await newUser.save();
     return res.status(201).json(savedUser);
   } catch (error) {
-    console.log(err);
+    console.log(error);
     return res.status(500).json({
       status: "error",
       message: "Server error",
@@ -57,7 +57,7 @@ router.post("/login", async (req, res) => {
     return res.status(200).json({ ...others, accessToken })
     
   } catch (error) {
-      console.log(err);
+      console.log(error);
       return res.status(500).json({
       status: "error",
       message: "Server error",
