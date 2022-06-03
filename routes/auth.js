@@ -21,8 +21,40 @@ router.post("/register", async (req, res) => {
       message: "Server error",
     });
   }
+});
 
+router.post("/login", async (req, res) => {
+ 
+  try {
+    const user = await User.findOne({ userName: req.body.userName });
 
+    if (!user) {
+      res.status(401).json({
+        message: "Wrong credentials!"
+      })
+    };
+
+    const hashedPassword = CryptoJS.AES.decrypt(user.password, process.env.PASSWORD_SECRET);
+    const originalPassword = hashedPassword.toString(CryptoJS.enc.Utf8);
+
+    if (originalPassword !== req.body.password) {
+      res.status(401).json({
+       message: "Wrong credentials!"
+      })
+    }
+
+    const { password, ...others } = user._doc;
+
+    return res.status(200).json(others)
+    
+  } catch (error) {
+      console.log(err);
+      return res.status(500).json({
+      status: "error",
+      message: "Server error",
+    });
+  }
+  
 })
 
 module.exports = router;
