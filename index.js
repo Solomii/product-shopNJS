@@ -6,14 +6,14 @@ const app = express();
 
 const userRoute = require("./routes/user");
 const authRoute = require("./routes/auth");
-const productsRoute = require("./routes/product");
+const productRoute = require("./routes/product");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true })); 
 
 app.use("/api/auth", authRoute);
 app.use("/api/users", userRoute);
-app.use("/api/products", productsRoute);
+app.use("/api/products", productRoute);
 
 app.get("*", (req, res) => {
   res.status(404).json({ message: "Wrong route!", error: true });
